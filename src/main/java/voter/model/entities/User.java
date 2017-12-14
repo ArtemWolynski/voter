@@ -21,7 +21,6 @@ public class User extends BaseEntity {
 
     static final long serialVersionUID = 1L;
 
-
     @Column(name = "email")
     @NotNull
     private String email;

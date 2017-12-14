@@ -3,6 +3,7 @@ package voter.model.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
@@ -14,6 +15,7 @@ import javax.persistence.*;
 public class MenuItem extends BaseEntity {
 
     static final long serialVersionUID = 1L;
+
 
 
     @Column(name = "price")

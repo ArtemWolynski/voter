@@ -7,6 +7,7 @@ import voter.model.entities.Restaurant;
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
 
+
     @Override
     public Restaurant save(Restaurant user) {
         return null;
