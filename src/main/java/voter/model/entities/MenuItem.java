@@ -1,6 +1,7 @@
 package voter.model.entities;
 
 import lombok.*;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -16,7 +17,9 @@ public class MenuItem extends BaseEntity {
 
     static final long serialVersionUID = 1L;
 
-
+    @NotEmpty
+    @Column(name = "name", nullable = false)
+    protected String name;
 
     @Column(name = "price")
     private long Price;

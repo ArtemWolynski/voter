@@ -22,10 +22,6 @@ public class BaseEntity implements Persistable<Integer> {
     @Setter
     private int id;
 
-    @NotEmpty
-    @Column(name = "name", nullable = false)
-    protected String name;
-
     @Override
     public Integer getId() {
         return this.id;
