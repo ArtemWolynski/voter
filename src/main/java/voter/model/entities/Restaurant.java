@@ -23,9 +23,13 @@ public class Restaurant extends BaseEntity {
 
     @NotEmpty
     @Column(name = "name", nullable = false)
-    protected String name;
+    private String name;
 
     @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "restaurant")
     @JsonIgnore
     private Set<MenuItem> menu;
+
+    @NotNull
+    @Column(name = "score", nullable = false)
+    private int score;
 }

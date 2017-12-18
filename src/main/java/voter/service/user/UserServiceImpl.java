@@ -21,18 +21,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Restaurant> getAll() {
-        userRepositorySpringDataJpa.save(new User("vovan", "test3", "12345", true, null));
-        List<User> users = userRepositorySpringDataJpa.findAll();
-
-        for (User user: users) {
-            System.out.println(user);
-            System.out.println(user.getId());
-        }
-        return null;
-    }
-
-    @Override
     public boolean vote(int restaurantId) {
         return false;
     }
