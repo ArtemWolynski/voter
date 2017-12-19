@@ -18,6 +18,6 @@ public interface UserRepositorySpringDataJpa extends JpaRepository<User, Integer
 
     @Transactional
     @Modifying
-    @Query("update Restaurant r SET r.score = r.score - 1 WHERE r.id = :id")
+    @Query("UPDATE Restaurant r SET r.score = r.score - 1 WHERE r.id = :id")
     int downVote(@Param("id") int id);
 }

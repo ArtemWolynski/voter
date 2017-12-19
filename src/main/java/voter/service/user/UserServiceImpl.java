@@ -21,7 +21,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean vote(int restaurantId) {
+    public boolean upVote(int restaurantId) {
+        return false;
+    }
+
+    @Override
+    public boolean downVite(int restaurantId) {
         return false;
     }
 }

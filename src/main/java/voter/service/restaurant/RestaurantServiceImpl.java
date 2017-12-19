@@ -21,13 +21,15 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public Restaurant save(Restaurant user) {
-        return null;
+    public Restaurant save(Restaurant restaurant) {
+        return restaurantRepositorySpringDataJpa.save(restaurant);
     }
+
+
 
     @Override
     public Restaurant get(int id) {
-        return null;
+        return restaurantRepositorySpringDataJpa.findOne((long)id);
     }
 
     @Override
@@ -36,32 +38,24 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public Restaurant update(Restaurant user) {
+    public Restaurant update(Restaurant id) {
         return null;
     }
 
     @Override
     public void delete(int id) {
-
+        restaurantRepositorySpringDataJpa.delete((long)id);
     }
 
     @Override
-    public Restaurant getMenu(int id) {
+    public Restaurant getRestaurantWithMenu(int restaurantId) {
+        return restaurantRepositorySpringDataJpa.getRestaurantWithMenu(restaurantId);
+    }
+
+
+    @Override
+    public Restaurant updateMenuItem(MenuItem menuItem) {
         return null;
     }
 
-    @Override
-    public MenuItem getMenuItem(int itemId) {
-        return null;
-    }
-
-    @Override
-    public Restaurant updateMenuItem(int itemId) {
-        return null;
-    }
-
-    @Override
-    public Restaurant deleteMenuItem(int itemId) {
-        return null;
-    }
 }

@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Getter
@@ -27,7 +27,7 @@ public class Restaurant extends BaseEntity {
 
     @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "restaurant")
     @JsonIgnore
-    private Set<MenuItem> menu;
+    private List<MenuItem> menu;
 
     @NotNull
     @Column(name = "score", nullable = false)

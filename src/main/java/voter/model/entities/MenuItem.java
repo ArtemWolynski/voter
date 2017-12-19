@@ -1,10 +1,10 @@
 package voter.model.entities;
 
+
 import lombok.*;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
@@ -12,7 +12,6 @@ import javax.validation.constraints.NotNull;
 @Table(name = "menu")
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class MenuItem extends BaseEntity {
 
     static final long serialVersionUID = 1L;
@@ -27,4 +26,9 @@ public class MenuItem extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
+
+    public String toString(){
+        return this.getName() + ", "
+                + this.getPrice();
+    }
 }

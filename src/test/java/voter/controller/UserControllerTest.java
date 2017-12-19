@@ -1,6 +1,8 @@
 package voter.controller;
 
+import junit.framework.TestCase;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +26,7 @@ import voter.repository.UserRepositorySpringDataJpa;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -41,7 +41,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 @WebAppConfiguration
-public class UserControllerTest {
+public class UserControllerTest extends TestCase {
 
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(),
@@ -49,6 +49,7 @@ public class UserControllerTest {
 
     private User adminUser;
     private User user;
+    private List<Restaurant> restaurantList = new ArrayList<>();
 
     private MockMvc mockMvc;
 
@@ -82,28 +83,26 @@ public class UserControllerTest {
     public void setup() throws Exception{
         mockMvc = webAppContextSetup(webApplicationContext).build();
 
-//        userRepositorySpringDataJpa.deleteAllInBatch();
-//        restaurantRepositorySpringDataJpa.deleteAllInBatch();
+        restaurantRepositorySpringDataJpa.deleteAllInBatch();
 
         Set<Role> roles = new HashSet<>();
         roles.add(Role.ROLE_USER);
+        roles.add(Role.ROLE_ADMIN);
 
         String password = passwordEncoder.encode("password");
-        user = new User("Will", "will@gmail.com", password, true, roles);
+        User user = new User("Will", "will@gmail.com", password, true, roles);
+        this.user = this.userRepositorySpringDataJpa.save(user);
 
-        roles.add(Role.ROLE_ADMIN);
-        adminUser = new User("Bo", "bo@gmail.com", password, true, roles);
-        this.adminUser = userRepositorySpringDataJpa.save(adminUser);
 
         MenuItem firstItem = new MenuItem("Rice", 200, null);
         MenuItem secondItem = new MenuItem("Meat", 300, null);
-        Set<MenuItem> menu = new HashSet<>();
 
+        List<MenuItem> menu = new LinkedList<>();
         menu.add(firstItem);
         menu.add(secondItem);
 
-        Restaurant restaurant = new Restaurant("TestRest", menu, 0);
-        restaurantRepositorySpringDataJpa.save(restaurant);
+        Restaurant restaurant = restaurantRepositorySpringDataJpa.save(new Restaurant("TestRest", menu, 0));
+        restaurantList.add(restaurant);
     }
 
     @Test
@@ -114,14 +113,19 @@ public class UserControllerTest {
     }
 
     @Test
-    public void allRestaurantsFound() throws Exception {
-        mockMvc.perform(get("/user/all")
-                        .contentType(contentType))
-                        .andExpect(status().isOk())
-                        .andExpect(content().contentType(contentType))
-                        .andExpect(jsonPath("$", hasSize(2)));
+    public void getAllRestaurantsTest() throws Exception {
+        mockMvc.perform(get("/user/restaurants")
+                .contentType(contentType))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(contentType))
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].name", is(this.restaurantList.get(0).getName())));
     }
 
+    @Test
+    public void upVote() throws Exception {
+
+    }
 
     private String json(Object o) throws IOException {
         MockHttpOutputMessage mockHttpOutputMessage = new MockHttpOutputMessage();

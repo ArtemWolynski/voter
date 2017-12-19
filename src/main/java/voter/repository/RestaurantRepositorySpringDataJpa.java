@@ -2,8 +2,17 @@ package voter.repository;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import voter.model.entities.MenuItem;
 import voter.model.entities.Restaurant;
+
+import javax.transaction.Transactional;
+import java.util.List;
 
 public interface RestaurantRepositorySpringDataJpa extends JpaRepository<Restaurant, Long> {
 
+    @Transactional
+    @Query("SELECT r FROM Restaurant r WHERE r.id = :id")
+    Restaurant getRestaurantWithMenu(@Param("id") int restaurantId);
 }

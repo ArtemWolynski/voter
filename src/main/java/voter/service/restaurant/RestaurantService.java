@@ -7,9 +7,10 @@ import voter.model.entities.Restaurant;
 import java.util.List;
 
 public interface RestaurantService {
-    Restaurant save(Restaurant user);
 
     Restaurant get(int id);
+
+    Restaurant save(Restaurant user);
 
     List<Restaurant> getAll();
 
@@ -17,11 +18,7 @@ public interface RestaurantService {
 
     void delete(int id);
 
-    Restaurant getMenu(int id);
+    Restaurant getRestaurantWithMenu(int restaurantId);
 
-    MenuItem getMenuItem(int itemId);
-
-    Restaurant updateMenuItem(int itemId);
-
-    Restaurant deleteMenuItem(int itemId);
+    Restaurant updateMenuItem(MenuItem menuItem);
 }
