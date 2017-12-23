@@ -132,6 +132,18 @@ public class UserControllerTest extends TestCase {
         Assert.assertEquals(restaurantRepositorySpringDataJpa.getRestaurantWithMenu(restaurantList.get(0).getId()).getScore(), 1);
     }
 
+    @Test
+    public void createRestaurantTest() throws Exception {
+        String restaurantJson = json(new Restaurant("BabaKitchen", null, 0));
+
+        mockMvc.perform(post("/admin/restaurant/create")
+                .contentType(contentType)
+                .content(restaurantJson))
+                .andExpect(status().isCreated());
+    }
+
+
+
     private String json(Object o) throws IOException {
         MockHttpOutputMessage mockHttpOutputMessage = new MockHttpOutputMessage();
         this.mappingJackson2HttpMessageConverter.write(

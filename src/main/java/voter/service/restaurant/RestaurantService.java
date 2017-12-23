@@ -10,7 +10,7 @@ public interface RestaurantService {
 
     Restaurant get(int id);
 
-    Restaurant save(Restaurant user);
+    Restaurant save(Restaurant restaurant);
 
     List<Restaurant> getAll();
 

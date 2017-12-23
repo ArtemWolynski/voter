@@ -25,8 +25,6 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restaurantRepositorySpringDataJpa.save(restaurant);
     }
 
-
-
     @Override
     public Restaurant get(int id) {
         return restaurantRepositorySpringDataJpa.findOne((long)id);

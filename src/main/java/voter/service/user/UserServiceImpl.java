@@ -26,9 +26,4 @@ public class UserServiceImpl implements UserService {
         System.out.println(vote);
         return true;
     }
-
-    @Override
-    public boolean downVite(int restaurantId) {
-        return false;
-    }
 }
