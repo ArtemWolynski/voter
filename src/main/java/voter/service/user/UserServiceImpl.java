@@ -21,8 +21,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean upVote(int restaurantId) {
-        return false;
+    public boolean vote(int userId, int restaurantId) {
+        int vote = userRepositorySpringDataJpa.upVote(restaurantId);
+        System.out.println(vote);
+        return true;
     }
 
     @Override

@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface UserService {
 
-    boolean upVote(int restaurantId);
+    boolean vote(int userId, int restaurantId);
 
-    boolean downVite(int restaurantId);
 }

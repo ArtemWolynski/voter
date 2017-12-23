@@ -1,6 +1,7 @@
 package voter.controller;
 
 import junit.framework.TestCase;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -123,8 +124,12 @@ public class UserControllerTest extends TestCase {
     }
 
     @Test
-    public void upVote() throws Exception {
+    public void vote() throws Exception {
+        mockMvc.perform(post("/user/restaurant/vote?id=" + restaurantList.get(0).getId())
+                .contentType(contentType))
+                .andExpect(status().isOk());
 
+        Assert.assertEquals(restaurantRepositorySpringDataJpa.getRestaurantWithMenu(restaurantList.get(0).getId()).getScore(), 1);
     }
 
     private String json(Object o) throws IOException {
