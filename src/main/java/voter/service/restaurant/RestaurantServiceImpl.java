@@ -25,9 +25,10 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restaurantRepositorySpringDataJpa.save(restaurant);
     }
 
+
     @Override
     public Restaurant get(int id) {
-        return restaurantRepositorySpringDataJpa.findOne((long)id);
+        return restaurantRepositorySpringDataJpa.findOne(id);
     }
 
     @Override
@@ -42,7 +43,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public void delete(int id) {
-        restaurantRepositorySpringDataJpa.delete((long)id);
+        restaurantRepositorySpringDataJpa.delete(id);
     }
 
     @Override

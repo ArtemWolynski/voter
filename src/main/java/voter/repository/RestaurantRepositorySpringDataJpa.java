@@ -10,7 +10,7 @@ import voter.model.entities.Restaurant;
 import javax.transaction.Transactional;
 import java.util.List;
 
-public interface RestaurantRepositorySpringDataJpa extends JpaRepository<Restaurant, Long> {
+public interface RestaurantRepositorySpringDataJpa extends JpaRepository<Restaurant, Integer> {
 
     @Transactional
     @Query("SELECT r FROM Restaurant r WHERE r.id = :id")

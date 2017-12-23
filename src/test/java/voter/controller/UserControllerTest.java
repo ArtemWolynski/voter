@@ -142,6 +142,20 @@ public class UserControllerTest extends TestCase {
                 .andExpect(status().isCreated());
     }
 
+    @Test
+    public void updateRestaurantTest() throws Exception {
+        Restaurant restaurant = restaurantRepositorySpringDataJpa.getRestaurantWithMenu(restaurantList.get(0).getId());
+        restaurant.setName("New test name");
+        String restaurantJson = json(restaurant);
+
+        mockMvc.perform(put("/admin/restaurant/update")
+                .contentType(contentType)
+                .content(restaurantJson));
+
+        Restaurant updatedRestaurant = restaurantRepositorySpringDataJpa.getRestaurantWithMenu(restaurantList.get(0).getId());
+        Assert.assertNotEquals(restaurant.getName(), updatedRestaurant.getName());
+    }
+
 
 
     private String json(Object o) throws IOException {
