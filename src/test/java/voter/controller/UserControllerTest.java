@@ -150,11 +150,13 @@ public class UserControllerTest extends TestCase {
 
         mockMvc.perform(put("/admin/restaurant/update")
                 .contentType(contentType)
-                .content(restaurantJson));
+                .content(restaurantJson))
+                .andExpect(status().isOk());
 
-        Restaurant updatedRestaurant = restaurantRepositorySpringDataJpa.getRestaurantWithMenu(restaurantList.get(0).getId());
+        Restaurant updatedRestaurant = restaurantRepositorySpringDataJpa.getOne(restaurantList.get(0).getId());
         Assert.assertNotEquals(restaurant.getName(), updatedRestaurant.getName());
     }
+
 
 
 

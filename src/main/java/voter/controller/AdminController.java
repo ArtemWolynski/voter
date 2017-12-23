@@ -5,11 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import voter.model.entities.MenuItem;
 import voter.model.entities.Restaurant;
 import voter.repository.RestaurantRepositorySpringDataJpa;
 import voter.service.restaurant.RestaurantService;
 import voter.service.user.UserService;
 import voter.util.CustomError;
+
+import java.util.List;
 
 @RestController
 @RequestMapping (value = "/admin")
@@ -52,6 +55,14 @@ public class AdminController {
             log.error("Restaurant with id: {} is not found", restaurant.getId());
             return new ResponseEntity<>(new CustomError("Error updating restaurant with id: " + restaurant.getId()), HttpStatus.NOT_FOUND);
         }
+        restaurant.setMenu(r.getMenu());
         return new ResponseEntity<>(restaurantService.save(restaurant), HttpStatus.OK);
+    }
+
+    @PostMapping("/menu/create")
+    public ResponseEntity createRestaurant(@RequestParam int restaurantId, @RequestBody List<MenuItem> menu) {
+        Restaurant restaurant = restaurantRepositorySpringDataJpa.findOne(restaurantId);
+        restaurant.setMenu(menu);
+        return new ResponseEntity<>(restaurant, HttpStatus.CREATED);
     }
 }

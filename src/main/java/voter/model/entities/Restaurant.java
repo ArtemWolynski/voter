@@ -16,7 +16,6 @@ import java.util.List;
 @Table(name = "restaurants")
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class Restaurant extends BaseEntity {
 
     static final long serialVersionUID = 1L;
@@ -32,4 +31,10 @@ public class Restaurant extends BaseEntity {
     @NotNull
     @Column(name = "score", nullable = false)
     private int score;
+
+    public String toString() {
+        return " id = " + this.getId()+
+                "\n name = " + this.getName()+
+                "\n score = " + this.getScore();
+    }
 }
