@@ -7,10 +7,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import voter.model.CustomUserDetails;
 import voter.repository.UserRepositorySpringDataJpa;
 
 @SpringBootApplication
+@EnableResourceServer
 public class VoterApplication {
 
 	@Autowired
@@ -25,6 +27,7 @@ public class VoterApplication {
 									  UserRepositorySpringDataJpa userRepositorySpringDataJpa) throws Exception {
 		authenticationManagerBuilder.userDetailsService(s -> new CustomUserDetails(userRepositorySpringDataJpa.getUserByUserName(s))).passwordEncoder(passwordEncoder);
 	}
+
 
 	@Bean
 	PasswordEncoder passwordEncoder() {

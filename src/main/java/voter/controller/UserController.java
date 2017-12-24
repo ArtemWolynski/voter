@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import voter.model.entities.MenuItem;
 import voter.model.entities.Restaurant;
+import voter.model.entities.User;
+import voter.repository.UserRepositorySpringDataJpa;
 import voter.service.restaurant.RestaurantService;
 import voter.service.user.UserService;
 import voter.util.CustomError;
@@ -21,14 +23,17 @@ public class UserController {
     private final
     UserService userService;
 
+    private final UserRepositorySpringDataJpa userRepositorySpringDataJpa;
+
     private final
     RestaurantService restaurantService;
 
 
     @Autowired
-    public UserController(UserService userService, RestaurantService restaurantService) {
+    public UserController(UserService userService, RestaurantService restaurantService, UserRepositorySpringDataJpa userRepositorySpringDataJpa) {
         this.userService = userService;
         this.restaurantService = restaurantService;
+        this.userRepositorySpringDataJpa = userRepositorySpringDataJpa;
     }
 
     @GetMapping(value = "/restaurants")

@@ -24,7 +24,7 @@ public class MenuItem extends BaseEntity {
     @Column(name = "price")
     private long Price;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
 
