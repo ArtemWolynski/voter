@@ -1,10 +1,7 @@
 package voter.controller;
 
 import junit.framework.TestCase;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,15 +26,14 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.*;
 
-import static org.junit.Assert.assertNotNull;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
-import static org.junit.Assert.*;
+
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
@@ -48,7 +44,7 @@ public class UserControllerTest extends TestCase {
             MediaType.APPLICATION_JSON.getSubtype(),
             Charset.forName("utf8"));
 
-    private User adminUser;
+
     private User user;
     private List<Restaurant> restaurantList = new ArrayList<>();
 
@@ -84,8 +80,6 @@ public class UserControllerTest extends TestCase {
     public void setup() throws Exception{
         mockMvc = webAppContextSetup(webApplicationContext).build();
 
-        restaurantRepositorySpringDataJpa.deleteAllInBatch();
-
         Set<Role> roles = new HashSet<>();
         roles.add(Role.ROLE_USER);
         roles.add(Role.ROLE_ADMIN);
@@ -95,14 +89,18 @@ public class UserControllerTest extends TestCase {
         this.user = this.userRepositorySpringDataJpa.save(user);
 
 
-        MenuItem firstItem = new MenuItem("Rice", 200, null);
-        MenuItem secondItem = new MenuItem("Meat", 300, null);
+        Restaurant restaurant = new Restaurant("TestRest", null, 0);
+
+        MenuItem firstItem = new MenuItem("Rice", 200, restaurant);
+        MenuItem secondItem = new MenuItem("Meat", 300, restaurant);
 
         List<MenuItem> menu = new LinkedList<>();
         menu.add(firstItem);
         menu.add(secondItem);
 
-        Restaurant restaurant = restaurantRepositorySpringDataJpa.save(new Restaurant("TestRest", menu, 0));
+        restaurant.setMenu(menu);
+
+        restaurant = restaurantRepositorySpringDataJpa.save(restaurant);
         restaurantList.add(restaurant);
     }
 
@@ -124,17 +122,31 @@ public class UserControllerTest extends TestCase {
     }
 
     @Test
+    public void getRestaurantTest() throws Exception {
+        Restaurant restaurant = restaurantRepositorySpringDataJpa.findOne(this.restaurantList.get(0).getId());
+        Assert.assertNotNull(restaurant);
+    }
+
+    @Test
+    public void getRestaurantWithMenuTest() throws Exception {
+        Restaurant restaurant = restaurantRepositorySpringDataJpa.getRestaurantWithMenu(this.restaurantList.get(0).getId());
+        Assert.assertNotNull(restaurant.getMenu());
+        Assert.assertTrue(restaurant.getMenu().size() > 0);
+    }
+
+    @Test
     public void vote() throws Exception {
-        mockMvc.perform(post("/user/restaurant/vote?id=" + restaurantList.get(0).getId())
+        mockMvc.perform(post("/user/restaurant/vote?id=" + this.restaurantList.get(0).getId())
                 .contentType(contentType))
                 .andExpect(status().isOk());
 
-        Assert.assertEquals(restaurantRepositorySpringDataJpa.getRestaurantWithMenu(restaurantList.get(0).getId()).getScore(), 1);
+        Assert.assertEquals(restaurantRepositorySpringDataJpa.getRestaurantWithMenu(this.restaurantList.get(0).getId()).getScore(), 1);
     }
 
     @Test
     public void createRestaurantTest() throws Exception {
-        String restaurantJson = json(new Restaurant("BabaKitchen", null, 0));
+        Restaurant restaurant = new Restaurant("BabaKitchen", null, 0);
+        String restaurantJson = json(restaurant);
 
         mockMvc.perform(post("/admin/restaurant/create")
                 .contentType(contentType)
@@ -144,17 +156,27 @@ public class UserControllerTest extends TestCase {
 
     @Test
     public void updateRestaurantTest() throws Exception {
-        Restaurant restaurant = restaurantRepositorySpringDataJpa.getRestaurantWithMenu(restaurantList.get(0).getId());
+        Restaurant restaurant = restaurantRepositorySpringDataJpa.getRestaurantWithMenu(this.restaurantList.get(0).getId());
+        String oldName = restaurant.getName();
         restaurant.setName("New test name");
+
         String restaurantJson = json(restaurant);
+        restaurantJson = "{\n  \"id\" : " + restaurant.getId() + ","
+                + restaurantJson.substring(1, restaurantJson.length());
 
         mockMvc.perform(put("/admin/restaurant/update")
                 .contentType(contentType)
                 .content(restaurantJson))
                 .andExpect(status().isOk());
 
-        Restaurant updatedRestaurant = restaurantRepositorySpringDataJpa.getOne(restaurantList.get(0).getId());
-        Assert.assertNotEquals(restaurant.getName(), updatedRestaurant.getName());
+        String newName = restaurantRepositorySpringDataJpa.getRestaurantWithMenu(this.restaurantList.get(0).getId()).getName();
+        Assert.assertNotEquals(oldName, newName);
+    }
+
+    @After
+    public void cleanup() throws Exception{
+        userRepositorySpringDataJpa.deleteAll();
+        restaurantRepositorySpringDataJpa.deleteAll();
     }
 
 

@@ -59,10 +59,14 @@ public class AdminController {
         return new ResponseEntity<>(restaurantService.save(restaurant), HttpStatus.OK);
     }
 
-    @PostMapping("/menu/create")
-    public ResponseEntity createRestaurant(@RequestParam int restaurantId, @RequestBody List<MenuItem> menu) {
+    @PostMapping("/menu/update")
+    public ResponseEntity updateMenu(@RequestParam int restaurantId, @RequestBody List<MenuItem> menu) {
         Restaurant restaurant = restaurantRepositorySpringDataJpa.findOne(restaurantId);
+        if (restaurant == null) {
+            return new ResponseEntity<>(new CustomError(""), HttpStatus.NOT_FOUND);
+        }
         restaurant.setMenu(menu);
-        return new ResponseEntity<>(restaurant, HttpStatus.CREATED);
+        restaurantRepositorySpringDataJpa.save(restaurant);
+        return new ResponseEntity<>(restaurant, HttpStatus.OK);
     }
 }

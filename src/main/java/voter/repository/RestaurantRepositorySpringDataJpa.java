@@ -8,11 +8,10 @@ import voter.model.entities.MenuItem;
 import voter.model.entities.Restaurant;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 public interface RestaurantRepositorySpringDataJpa extends JpaRepository<Restaurant, Integer> {
 
     @Transactional
-    @Query("SELECT r FROM Restaurant r WHERE r.id = :id")
+    @Query("SELECT r FROM Restaurant r LEFT JOIN FETCH r.menu WHERE r.id = :id")
     Restaurant getRestaurantWithMenu(@Param("id") int restaurantId);
 }

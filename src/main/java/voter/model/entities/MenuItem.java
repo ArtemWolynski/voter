@@ -1,6 +1,7 @@
 package voter.model.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import org.hibernate.validator.constraints.NotEmpty;
 
