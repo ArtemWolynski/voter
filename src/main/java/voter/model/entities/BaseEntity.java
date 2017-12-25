@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.Hibernate;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.domain.Persistable;
 
@@ -31,5 +32,23 @@ public class BaseEntity implements Persistable<Integer> {
     @Override
     public boolean isNew() {
         return (this.id == 0);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || !getClass().equals(Hibernate.getClass(o))) {
+            return false;
+        }
+        BaseEntity that = (BaseEntity) o;
+
+        return null != getId() && getId().equals(that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return (getId() == null) ? 0 : getId();
     }
 }

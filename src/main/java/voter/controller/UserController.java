@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import voter.model.entities.MenuItem;
 import voter.model.entities.Restaurant;
-import voter.model.entities.User;
 import voter.repository.UserRepositorySpringDataJpa;
 import voter.service.restaurant.RestaurantService;
 import voter.service.user.UserService;
@@ -48,7 +47,7 @@ public class UserController {
         if (menuItems == null) {
             return new ResponseEntity<>(new CustomError("Menu for restaurant: " + restaurantId + " is not found"), HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(menuItems, HttpStatus.OK);
+        return new ResponseEntity<>(restaurantService.getRestaurantWithMenu(restaurantId), HttpStatus.OK);
     }
 
     @PostMapping(value = "restaurant/vote")
