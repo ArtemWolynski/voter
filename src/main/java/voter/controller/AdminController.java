@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import voter.model.entities.MenuItem;
 import voter.model.entities.Restaurant;
 import voter.repository.RestaurantRepositorySpringDataJpa;
-import voter.service.restaurant.RestaurantService;
 import voter.util.CustomError;
 
 import java.util.List;
@@ -24,15 +23,13 @@ import java.util.List;
 public class AdminController {
 
 
-    private final
-    RestaurantService restaurantService;
+
 
     private final RestaurantRepositorySpringDataJpa restaurantRepositorySpringDataJpa;
 
 
     @Autowired
-    public AdminController(RestaurantService restaurantService, RestaurantRepositorySpringDataJpa restaurantRepositorySpringDataJpa) {
-        this.restaurantService = restaurantService;
+    public AdminController(RestaurantRepositorySpringDataJpa restaurantRepositorySpringDataJpa) {
         this.restaurantRepositorySpringDataJpa = restaurantRepositorySpringDataJpa;
     }
 
@@ -46,7 +43,7 @@ public class AdminController {
     @PostMapping("/restaurant/create")
     public ResponseEntity createRestaurant(@RequestBody Restaurant restaurant) {
         log.info("Creating restaurant with name: {}", restaurant.getName());
-        Restaurant r = restaurantService.save(restaurant);
+        Restaurant r = restaurantRepositorySpringDataJpa.save(restaurant);
 
         if (r == null) {
             log.error("Error creating restaurant with name: {}", restaurant.getName());
@@ -71,7 +68,7 @@ public class AdminController {
             return new ResponseEntity<>(new CustomError("Error updating restaurant with id: " + restaurant.getId()), HttpStatus.NOT_FOUND);
         }
         restaurant.setMenu(r.getMenu());
-        return new ResponseEntity<>(restaurantService.save(restaurant), HttpStatus.OK);
+        return new ResponseEntity<>(restaurantRepositorySpringDataJpa.save(restaurant), HttpStatus.OK);
     }
 
     /**

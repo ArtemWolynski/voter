@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import voter.model.entities.MenuItem;
 import voter.model.entities.Restaurant;
 import voter.model.entities.User;
+import voter.repository.RestaurantRepositorySpringDataJpa;
 import voter.repository.UserRepositorySpringDataJpa;
-import voter.service.restaurant.RestaurantService;
 import voter.util.CustomError;
 
 import java.time.LocalDateTime;
@@ -32,14 +32,14 @@ public class UserController {
 
     private final UserRepositorySpringDataJpa userRepositorySpringDataJpa;
 
-    private final
-    RestaurantService restaurantService;
+    private final RestaurantRepositorySpringDataJpa restaurantRepositorySpringDataJpa;
 
 
     @Autowired
-    public UserController(RestaurantService restaurantService, UserRepositorySpringDataJpa userRepositorySpringDataJpa) {
-        this.restaurantService = restaurantService;
+    public UserController(UserRepositorySpringDataJpa userRepositorySpringDataJpa,
+                          RestaurantRepositorySpringDataJpa restaurantRepositorySpringDataJpa) {
         this.userRepositorySpringDataJpa = userRepositorySpringDataJpa;
+        this.restaurantRepositorySpringDataJpa = restaurantRepositorySpringDataJpa;
     }
 
     /**
@@ -50,7 +50,7 @@ public class UserController {
      */
     @GetMapping(value = "/restaurants")
     public ResponseEntity getAll() {
-        List<Restaurant> restaurantList = restaurantService.getAll();
+        List<Restaurant> restaurantList = restaurantRepositorySpringDataJpa.findAll();
         return new ResponseEntity<>(restaurantList, HttpStatus.OK);
     }
 
@@ -61,7 +61,7 @@ public class UserController {
      */
     @GetMapping(value = "/restaurant/menu")
     public ResponseEntity getRestaurantWithMenu(@RequestParam ("id") int restaurantId) {
-        List<MenuItem> menuItems = restaurantService.getRestaurantWithMenu(restaurantId).getMenu();
+        List<MenuItem> menuItems = restaurantRepositorySpringDataJpa.getRestaurantWithMenu(restaurantId).getMenu();
         if (menuItems == null) {
             return new ResponseEntity<>(new CustomError("Menu for restaurant: " + restaurantId + " is not found"), HttpStatus.NOT_FOUND);
         }

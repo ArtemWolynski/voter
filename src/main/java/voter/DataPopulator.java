@@ -26,19 +26,20 @@ public class DataPopulator implements ApplicationRunner {
 
     private final RestaurantRepositorySpringDataJpa restaurantRepositorySpringDataJpa;
 
-    @Autowired
+    private final
     PasswordEncoder passwordEncoder;
 
     @Autowired
-    public DataPopulator(UserRepositorySpringDataJpa userRepositorySpringDataJpa, RestaurantRepositorySpringDataJpa restaurantRepositorySpringDataJpa) {
+    public DataPopulator(UserRepositorySpringDataJpa userRepositorySpringDataJpa, RestaurantRepositorySpringDataJpa restaurantRepositorySpringDataJpa, PasswordEncoder passwordEncoder) {
         this.userRepositorySpringDataJpa = userRepositorySpringDataJpa;
         this.restaurantRepositorySpringDataJpa = restaurantRepositorySpringDataJpa;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public void run(ApplicationArguments args){
         Set<Role> roles = new HashSet<>();
         roles.add(Role.ROLE_USER);
-        String password = passwordEncoder.encode("password");
+        String password = passwordEncoder.encode("user");
         User user = new User("user", "user@gmail.com", password, roles);
         this.userRepositorySpringDataJpa.save(user);
 

@@ -35,6 +35,7 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@SuppressWarnings("ALL")
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 @WebAppConfiguration
@@ -53,7 +54,7 @@ public class UserControllerTest extends TestCase {
     private HttpMessageConverter mappingJackson2HttpMessageConverter;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserRepositorySpringDataJpa userRepositorySpringDataJpa;
