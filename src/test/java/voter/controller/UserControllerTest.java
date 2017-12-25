@@ -85,7 +85,7 @@ public class UserControllerTest extends TestCase {
         roles.add(Role.ROLE_ADMIN);
 
         String password = passwordEncoder.encode("password");
-        User user = new User("Will", "will@gmail.com", password, true, roles);
+        User user = new User("Will", "will@gmail.com", password, roles);
         this.user = this.userRepositorySpringDataJpa.save(user);
 
 

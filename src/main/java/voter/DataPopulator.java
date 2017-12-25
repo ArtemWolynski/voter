@@ -20,15 +20,16 @@ import java.util.Set;
 @Component
 public class DataPopulator implements ApplicationRunner {
 
-    @Autowired
+
     private final UserRepositorySpringDataJpa userRepositorySpringDataJpa;
 
-    @Autowired
+
     private final RestaurantRepositorySpringDataJpa restaurantRepositorySpringDataJpa;
 
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    @Autowired
     public DataPopulator(UserRepositorySpringDataJpa userRepositorySpringDataJpa, RestaurantRepositorySpringDataJpa restaurantRepositorySpringDataJpa) {
         this.userRepositorySpringDataJpa = userRepositorySpringDataJpa;
         this.restaurantRepositorySpringDataJpa = restaurantRepositorySpringDataJpa;
@@ -38,13 +39,13 @@ public class DataPopulator implements ApplicationRunner {
         Set<Role> roles = new HashSet<>();
         roles.add(Role.ROLE_USER);
         String password = passwordEncoder.encode("password");
-        User user = new User("user", "user@gmail.com", password, true, roles);
+        User user = new User("user", "user@gmail.com", password, roles);
         this.userRepositorySpringDataJpa.save(user);
 
 
         roles.add(Role.ROLE_ADMIN);
         password = passwordEncoder.encode("admin");
-        User admin = new User("admin", "admin@gmail.com", password, true, roles);
+        User admin = new User("admin", "admin@gmail.com", password, roles);
         this.userRepositorySpringDataJpa.save(admin);
 
         Restaurant restaurant = new Restaurant("TestRest", null, 0);
@@ -58,11 +59,5 @@ public class DataPopulator implements ApplicationRunner {
 
         restaurant.setMenu(menu);
         restaurantRepositorySpringDataJpa.save(restaurant);
-
-        List<User> users = userRepositorySpringDataJpa.findAll();
-
-        for (User u: users) {
-            System.out.println(u);
-        }
     }
 }

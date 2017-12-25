@@ -4,14 +4,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import voter.model.entities.MenuItem;
 import voter.model.entities.Restaurant;
+import voter.model.entities.User;
 import voter.repository.UserRepositorySpringDataJpa;
 import voter.service.restaurant.RestaurantService;
-import voter.service.user.UserService;
 import voter.util.CustomError;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -25,8 +28,7 @@ import java.util.List;
 @RequestMapping(value = "/user")
 public class UserController {
 
-    private final
-    UserService userService;
+
 
     private final UserRepositorySpringDataJpa userRepositorySpringDataJpa;
 
@@ -35,8 +37,7 @@ public class UserController {
 
 
     @Autowired
-    public UserController(UserService userService, RestaurantService restaurantService, UserRepositorySpringDataJpa userRepositorySpringDataJpa) {
-        this.userService = userService;
+    public UserController(RestaurantService restaurantService, UserRepositorySpringDataJpa userRepositorySpringDataJpa) {
         this.restaurantService = restaurantService;
         this.userRepositorySpringDataJpa = userRepositorySpringDataJpa;
     }
@@ -64,7 +65,7 @@ public class UserController {
         if (menuItems == null) {
             return new ResponseEntity<>(new CustomError("Menu for restaurant: " + restaurantId + " is not found"), HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(restaurantService.getRestaurantWithMenu(restaurantId), HttpStatus.OK);
+        return new ResponseEntity<>(menuItems, HttpStatus.OK);
     }
 
     /**
@@ -74,10 +75,15 @@ public class UserController {
      */
     @PostMapping(value = "restaurant/vote")
     public ResponseEntity upVote(@RequestParam ("id") int restaurantId) {
-        int userId = 0;
-        if(!userService.vote(userId, restaurantId)) {
-            return new ResponseEntity<>(new CustomError("You've already voted"), HttpStatus.FORBIDDEN);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepositorySpringDataJpa.getUserByUserName(authentication.getName());
+
+        if (user.getLastVoteDateTime().getDayOfYear() == LocalDateTime.now().getDayOfYear() && user.getLastVoteDateTime().getHour() > 10) {
+            return new ResponseEntity<>(new CustomError("You have already voted"), HttpStatus.FORBIDDEN);
         }
+        user.setLastVoteDateTime(LocalDateTime.now());
+        userRepositorySpringDataJpa.upVote(restaurantId);
+        userRepositorySpringDataJpa.save(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

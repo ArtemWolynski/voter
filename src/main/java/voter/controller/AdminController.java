@@ -9,7 +9,6 @@ import voter.model.entities.MenuItem;
 import voter.model.entities.Restaurant;
 import voter.repository.RestaurantRepositorySpringDataJpa;
 import voter.service.restaurant.RestaurantService;
-import voter.service.user.UserService;
 import voter.util.CustomError;
 
 import java.util.List;
@@ -24,8 +23,6 @@ import java.util.List;
 @Slf4j
 public class AdminController {
 
-    private final
-    UserService userService;
 
     private final
     RestaurantService restaurantService;
@@ -34,9 +31,8 @@ public class AdminController {
 
 
     @Autowired
-    public AdminController(RestaurantService restaurantService, UserService userService, RestaurantRepositorySpringDataJpa restaurantRepositorySpringDataJpa) {
+    public AdminController(RestaurantService restaurantService, RestaurantRepositorySpringDataJpa restaurantRepositorySpringDataJpa) {
         this.restaurantService = restaurantService;
-        this.userService = userService;
         this.restaurantRepositorySpringDataJpa = restaurantRepositorySpringDataJpa;
     }
 
