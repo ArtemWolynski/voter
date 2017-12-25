@@ -26,7 +26,6 @@ public class Restaurant extends BaseEntity {
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "restaurant", orphanRemoval = true)
-//    @JsonIgnore
     private List<MenuItem> menu;
 
     @NotNull

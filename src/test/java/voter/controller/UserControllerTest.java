@@ -106,7 +106,7 @@ public class UserControllerTest extends TestCase {
 
     @Test
     public void userNotFound() throws Exception {
-        mockMvc.perform(get("/user/get?id")
+        mockMvc.perform(get("/user/getRestaurantWithMenu?id")
                 .contentType(contentType))
                 .andExpect(status().isNotFound());
     }

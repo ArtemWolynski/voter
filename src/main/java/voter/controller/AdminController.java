@@ -16,6 +16,7 @@ import java.util.List;
 
 /**
  * <p>This class is responsible for manipulation on entities registered in the database. It contains methods to create and update existing restaurants and it's menus.</p>
+ * <p>Can only be accessed by the authorized user with admin rights.</p>
  */
 
 @RestController
