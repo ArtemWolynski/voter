@@ -37,8 +37,8 @@ http://localhost:8080/oauth/token?grant_type=password&username=admin&password=ad
 **Examples of api commands**
 
 
-Request example | Response example
---------------- | -----------------
-`http://localhost:8080/user/restaurants`  | `{"name":"McDonalds",   "score": 0,  "id": 1}`
-`http://localhost:8080/user/restaurant/menu?id=1` | `{" "name": "Rice",   "id": 1,  "price": 200}`
-`http://localhost:8080/user/restaurant/vote?id=1` | `{"status": OK}`
+Method | Request example | Response example
+------ | --------------- | -----------------
+`GET`  | http://localhost:8080/user/restaurants`  | `{"name":"McDonalds",   "score": 0,  "id": 1}`
+`GET`  | `http://localhost:8080/user/restaurant/menu?id=1` | `{" "name": "Rice",   "id": 1,  "price": 200}`
+`POST` | `http://localhost:8080/user/restaurant/vote?id=1` | `{"status": OK}`
