@@ -47,9 +47,3 @@ Method | Request example | Response example
 
 
 
-<b>Admin commands</b><br><br>
-Method | Request example | Response example  | Request body
------- | --------------- | ----------------- | -----------------
-`POST`  | `hhttp://localhost:8080/admin/restaurant/update`  | `{"{name":"McDonalds",   "score": 0,  "id": 1}` | `"name": "McDonaldsUpdated",  "id": 1`
-`PUT`   | `http://localhost:8080/admin/restaurant/create`   | `{"{name": "Burger King", "score": 0,"id": 3}`  | `"name": "Burger King"`
-`PUT`   | `http://localhost:8080/admin/menu/update?id=1`    | `{"[{ "name": "Cheese",   "price": 200}]`       | `"name": "Cheese",  "id": 4, "price": 200"`
