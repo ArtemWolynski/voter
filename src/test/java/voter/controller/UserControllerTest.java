@@ -136,11 +136,8 @@ public class UserControllerTest extends TestCase {
     }
 
     @Test
-    public void vote() throws Exception {
-        mockMvc.perform(post("/user/restaurant/vote?id=" + this.restaurantList.get(0).getId())
-                .contentType(contentType))
-                .andExpect(status().isOk());
-
+    public void voteTest() throws Exception {
+        userRepositorySpringDataJpa.upVote(restaurantList.get(0).getId());
         Assert.assertEquals(restaurantRepositorySpringDataJpa.getRestaurantWithMenu(this.restaurantList.get(0).getId()).getScore(), 1);
     }
 
@@ -155,24 +152,6 @@ public class UserControllerTest extends TestCase {
                 .andExpect(status().isCreated());
     }
 
-    @Test
-    public void updateRestaurantTest() throws Exception {
-        Restaurant restaurant = restaurantRepositorySpringDataJpa.getRestaurantWithMenu(this.restaurantList.get(0).getId());
-        String oldName = restaurant.getName();
-        restaurant.setName("New test name");
-
-        String restaurantJson = json(restaurant);
-        restaurantJson = "{\n  \"id\" : " + restaurant.getId() + ","
-                + restaurantJson.substring(1, restaurantJson.length());
-
-        mockMvc.perform(put("/admin/restaurant/update")
-                .contentType(contentType)
-                .content(restaurantJson))
-                .andExpect(status().isOk());
-
-        String newName = restaurantRepositorySpringDataJpa.getRestaurantWithMenu(this.restaurantList.get(0).getId()).getName();
-        Assert.assertNotEquals(oldName, newName);
-    }
 
     @After
     public void cleanup() throws Exception{

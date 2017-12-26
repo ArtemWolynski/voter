@@ -8,6 +8,7 @@ import voter.model.entities.Restaurant;
 
 import javax.transaction.Transactional;
 
+
 public interface RestaurantRepositorySpringDataJpa extends JpaRepository<Restaurant, Integer> {
 
     @Transactional

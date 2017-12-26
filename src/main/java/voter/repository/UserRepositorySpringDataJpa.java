@@ -9,6 +9,7 @@ import voter.model.entities.User;
 
 import javax.transaction.Transactional;
 
+
 public interface UserRepositorySpringDataJpa extends JpaRepository<User, Integer> {
 
     @Transactional

@@ -1,17 +1,14 @@
 package voter.model.entities;
 
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.persistence.*;
 
 @Entity
+@Table(name = "menu")
 @Getter
 @Setter
-@Table(name = "menu")
 @AllArgsConstructor
 @NoArgsConstructor
 public class MenuItem extends BaseEntity {
@@ -25,7 +22,7 @@ public class MenuItem extends BaseEntity {
     @Column(name = "price")
     private long Price;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @JsonIgnore
     private Restaurant restaurant;

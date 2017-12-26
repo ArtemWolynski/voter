@@ -1,22 +1,18 @@
 package voter.model.entities;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.validator.constraints.NotEmpty;
-
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
 @Table(name = "restaurants")
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class Restaurant extends BaseEntity {
 
     static final long serialVersionUID = 1L;
@@ -25,7 +21,9 @@ public class Restaurant extends BaseEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "restaurant", orphanRemoval = true)
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.PERSIST}, mappedBy = "restaurant", orphanRemoval = true)
+    @JsonIgnore
     private List<MenuItem> menu;
 
     @NotNull

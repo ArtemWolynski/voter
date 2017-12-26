@@ -79,7 +79,7 @@ public class UserController {
         User user = userRepositorySpringDataJpa.getUserByUserName(authentication.getName());
 
         if (user.getLastVoteDateTime().getDayOfYear() == LocalDateTime.now().getDayOfYear() && user.getLastVoteDateTime().getHour() > 10) {
-            return new ResponseEntity<>(new CustomError("You have already voted"), HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(new CustomError("Something went wrong!"), HttpStatus.FORBIDDEN);
         }
         user.setLastVoteDateTime(LocalDateTime.now());
         userRepositorySpringDataJpa.upVote(restaurantId);

@@ -80,16 +80,15 @@ public class AdminController {
      * @return updated list of menu items.
      */
     @PostMapping("/menu/update")
-    public ResponseEntity updateMenu(@RequestParam int restaurantId, @RequestBody List<MenuItem> menu) {
+    public ResponseEntity updateMenu(@RequestParam ("id") int restaurantId, @RequestBody List<MenuItem> menu) {
         Restaurant restaurant = restaurantRepositorySpringDataJpa.getRestaurantWithMenu(restaurantId);
         if (restaurant == null) {
-            return new ResponseEntity<>(new CustomError(""), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new CustomError("Error updating menu for restaurant: " + restaurantId), HttpStatus.NOT_FOUND);
         }
-
-        restaurant.getMenu().clear();
         for (MenuItem m: menu) {
             m.setRestaurant(restaurant);
         }
+        restaurant.getMenu().clear();
         restaurant.getMenu().addAll(menu);  //http://cristian.sulea.net/blog.php?p=2014-06-28-hibernate-exception-a-collection-with-cascade-all-delete-orphan-was-no-longer-referenced-by-the-owning-entity-instance
         return new ResponseEntity<>(restaurantRepositorySpringDataJpa.save(restaurant).getMenu(), HttpStatus.OK);
     }
