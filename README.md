@@ -33,100 +33,13 @@ http://localhost:8080/oauth/token?grant_type=password&username=admin&password=ad
 ```
 
 
-##User commands
-List of commands available for the user
+###Commands
 
-###Get all restaurants
-Returns all restaurants saved in database
- 
- * **URL**
- 
-   /user/restaurants
- 
- * **Method:**
- 
-   `GET`
-   
- * **Success Response:**
- 
-   * **Code:** 200 <br />
-     **Content:** `{ [
-                         {
-                             "name": "KFC",
-                             "score": 0,
-                             "id": 1
-                         },
-                         {
-                             "name": "McDonalds",
-                             "score": 0,
-                             "id": 2
-                         }
-                     ] }`
-  
- * **Error Response:**
- 
-   * **Code:** 400 BAD REQUEST <br />
-     **Content:** `{ error : "Error fetching all restaurants" }`
- 
+**Examples of api commands**
 
-###Get restaurant's menu
-Returns menu for the requested restaurant
- 
- * **URL**
- 
-   /user/restaurant/menu?id=1
-   
-   **Required:**
-       
-       `id=[integer]
- 
- * **Method:**
- 
-   `GET`
-   
-   
- * **Success Response:**
- 
-   * **Code:** 200 <br />
-     **Content:** `{ [
-                         {
-                             "name": "Rice",
-                             "id": 1,
-                             "price": 200
-                         },
-                         {
-                             "name": "Meat",
-                             "id": 2,
-                             "price": 300
-                         }
-                     ] }`
-  
- * **Error Response:**
- 
-   * **Code:** 404 NOT FOUND <br />
-     **Content:** `{ error : "Menu for restaurant: ID is not found" }`
-     
 
-###Vote for restaurant
-
- * **URL**
- 
-   /user/restaurant/vote?id=1
-
-  **Required:**
-       
-       `id=[integer]`(id of the restaurant)
- 
- * **Method:**
- 
-   POST
-   
- * **Success Response:**
- 
-   * **Code:** 200 <br />
-  
- * **Error Response:**
- 
-   * **Code:** 400 BAD REQUEST <br />
-     **Content:** `{ error : "Something went wrong!" }`
-     
+Method | Request example | Response example
+------ | --------------- | -----------------
+`GET`  | http://localhost:8080/user/restaurants`  | `{"name":"McDonalds",   "score": 0,  "id": 1}`
+`GET`  | `http://localhost:8080/user/restaurant/menu?id=1` | `{" "name": "Rice",   "id": 1,  "price": 200}`
+`POST` | `http://localhost:8080/user/restaurant/vote?id=1` | `{"status": OK}`
