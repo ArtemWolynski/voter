@@ -2,6 +2,8 @@ package voter.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -25,6 +27,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
+@CacheConfig(cacheNames = "restaurants")
 @RequestMapping(value = "/user")
 public class UserController {
 
@@ -49,6 +52,7 @@ public class UserController {
      * @return list of restaurants.
      */
     @GetMapping(value = "/restaurants")
+    @Cacheable
     public ResponseEntity getAll() {
         log.info("Fetching all restaurants");
         List<Restaurant> restaurantList = restaurantRepositorySpringDataJpa.findAll();
@@ -65,6 +69,7 @@ public class UserController {
      * @return updated instance of the restaurant.
      */
     @GetMapping(value = "/restaurant/menu")
+    @Cacheable
     public ResponseEntity getRestaurantWithMenu(@RequestParam ("id") int restaurantId) {
         List<MenuItem> menuItems = restaurantRepositorySpringDataJpa.getRestaurantWithMenu(restaurantId).getMenu();
         System.out.println(menuItems);

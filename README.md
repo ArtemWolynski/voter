@@ -21,7 +21,7 @@ To get token run the app, set authorization type as basic and add following cred
 <b>Username: </b> user<br>
 <b>Password: </b> password<br>
 <br>
-To authorize as<b>user</b>use the following link on your client:
+To authorize as <b>user</b> use the following link on your client:
 
 
 ```
@@ -42,14 +42,14 @@ http://localhost:8080/oauth/token?grant_type=password&username=admin&password=ad
 Method | Request example | Response example
 ------ | --------------- | -----------------
 `GET`  |  `http://localhost:8080/user/restaurants`  | `{"name":"McDonalds",   "score": 0,  "id": 1}`
-`GET`  | `http://localhost:8080/user/restaurant/menu?id=1` | `{" "name": "Rice",   "id": 1,  "price": 200}`
+`GET`  | `http://localhost:8080/user/restaurant/menu?id=1` | `{"name": "Rice",   "id": 1,  "price": 200}`
 `POST` | `http://localhost:8080/user/restaurant/vote?id=1` | `{"status": OK}`
 
 <br><b>Admin commands</b><br>
 
 Method  | Request example | Request body      | Response example
 ------  | --------------- | ----------------- | -----------------
-`POST`  | `hhttp://localhost:8080/admin/restaurant/update`  | `{"{name":"McDonalds",   "score": 0,  "id": 1}` | `"name": "McDonaldsUpdated",  "id": 1`
-`PUT`   | `http://localhost:8080/admin/restaurant/create`   | `{"{name": "Burger King", "score": 0,"id": 3}`  | `"name": "Burger King"`
-`PUT`   | `http://localhost:8080/admin/menu/update?id=1`    | `{"[{ "name": "Cheese",   "price": 200}]`       | `"name": "Cheese",  "id": 4, "price": 200"`
+`POST`  | `hhttp://localhost:8080/admin/restaurant/update`  | `[{name":"McDonalds",   "score": 0,  "id": 1}]` | `"name": "McDonaldsUpdated",  "id": 1`
+`PUT`   | `http://localhost:8080/admin/restaurant/create`   | `[{name": "Burger King", "score": 0,"id": 3}]`  | `"name": "Burger King"`
+`PUT`   | `http://localhost:8080/admin/menu/update?id=1`    | `[{ "name": "Cheese",   "price": 200}]`         | `"name": "Cheese",  "id": 4, "price": 200"`
 
