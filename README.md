@@ -44,6 +44,9 @@ Method | Request example | Response example
 `GET`  | `http://localhost:8080/user/restaurant/menu?id=1` | `{" "name": "Rice",   "id": 1,  "price": 200}`
 `POST` | `http://localhost:8080/user/restaurant/vote?id=1` | `{"status": OK}`
 
+
+
+
 <b>Admin commands</b><br><br>
 Method | Request example | Response example  | Request body
 ------ | --------------- | ----------------- | -----------------
