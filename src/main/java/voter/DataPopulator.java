@@ -49,16 +49,21 @@ public class DataPopulator implements ApplicationRunner {
         User admin = new User("admin", "admin@gmail.com", password, roles);
         this.userRepositorySpringDataJpa.save(admin);
 
-        Restaurant restaurant = new Restaurant("TestRest", null, 0);
+        Restaurant McDonalds = new Restaurant("McDonalds", null, 0);
+        Restaurant KFC = new Restaurant("KFC", null, 0);
 
-        MenuItem firstItem = new MenuItem("Rice", 200, restaurant);
-        MenuItem secondItem = new MenuItem("Meat", 300, restaurant);
+
+        MenuItem firstItem = new MenuItem("Rice", 200, McDonalds);
+        MenuItem secondItem = new MenuItem("Meat", 300, McDonalds);
 
         List<MenuItem> menu = new LinkedList<>();
         menu.add(firstItem);
         menu.add(secondItem);
 
-        restaurant.setMenu(menu);
-        restaurantRepositorySpringDataJpa.save(restaurant);
+        McDonalds.setMenu(menu);
+
+        restaurantRepositorySpringDataJpa.save(McDonalds);
+        restaurantRepositorySpringDataJpa.save(KFC);
+
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import voter.model.entities.Restaurant;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 
 public interface RestaurantRepositorySpringDataJpa extends JpaRepository<Restaurant, Integer> {

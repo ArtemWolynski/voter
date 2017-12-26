@@ -28,7 +28,6 @@ public class VoterApplication {
 		authenticationManagerBuilder.userDetailsService(s -> new CustomUserDetails(userRepositorySpringDataJpa.getUserByUserName(s))).passwordEncoder(passwordEncoder);
 	}
 
-
 	@Bean
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();

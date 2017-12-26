@@ -50,7 +50,12 @@ public class UserController {
      */
     @GetMapping(value = "/restaurants")
     public ResponseEntity getAll() {
+        log.info("Fetching all restaurants");
         List<Restaurant> restaurantList = restaurantRepositorySpringDataJpa.findAll();
+        if(restaurantList == null || restaurantList.size() == 0) {
+            log.error("Error fetching all restaurants");
+            return new ResponseEntity<>(new CustomError("Error fetching all restaurants"), HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(restaurantList, HttpStatus.OK);
     }
 
@@ -62,6 +67,7 @@ public class UserController {
     @GetMapping(value = "/restaurant/menu")
     public ResponseEntity getRestaurantWithMenu(@RequestParam ("id") int restaurantId) {
         List<MenuItem> menuItems = restaurantRepositorySpringDataJpa.getRestaurantWithMenu(restaurantId).getMenu();
+        System.out.println(menuItems);
         if (menuItems == null) {
             return new ResponseEntity<>(new CustomError("Menu for restaurant: " + restaurantId + " is not found"), HttpStatus.NOT_FOUND);
         }
@@ -79,7 +85,7 @@ public class UserController {
         User user = userRepositorySpringDataJpa.getUserByUserName(authentication.getName());
 
         if (user.getLastVoteDateTime().getDayOfYear() == LocalDateTime.now().getDayOfYear() && user.getLastVoteDateTime().getHour() > 10) {
-            return new ResponseEntity<>(new CustomError("Something went wrong!"), HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(new CustomError("Something went wrong!"), HttpStatus.BAD_REQUEST);
         }
         user.setLastVoteDateTime(LocalDateTime.now());
         userRepositorySpringDataJpa.upVote(restaurantId);

@@ -32,19 +32,101 @@ To authorize as<b>admin</b>use this:
 http://localhost:8080/oauth/token?grant_type=password&username=admin&password=admin
 ```
 
-List of commands available for the user:<br>
 
-###Commands
+##User commands
+List of commands available for the user
 
-**There are two REST interfaces**
+###Get all restaurants
+Returns all restaurants saved in database
+ 
+ * **URL**
+ 
+   /user/restaurants
+ 
+ * **Method:**
+ 
+   `GET`
+   
+ * **Success Response:**
+ 
+   * **Code:** 200 <br />
+     **Content:** `{ [
+                         {
+                             "name": "KFC",
+                             "score": 0,
+                             "id": 1
+                         },
+                         {
+                             "name": "McDonalds",
+                             "score": 0,
+                             "id": 2
+                         }
+                     ] }`
+  
+ * **Error Response:**
+ 
+   * **Code:** 400 BAD REQUEST <br />
+     **Content:** `{ error : "Error fetching all restaurants" }`
+ 
 
-    REST uri     |    HTTP method | Response format  | Accept
-    ------------ | -------------- | ---------------  | ---------------
-<domain>/rest/tasks/new` | GET | `application/json` | key-value pairs with keys: `domain` and `keyword`
-<domain>/rest/tasks/{id}`| GET | `application/json` | path variable, where `{id}` is integer number  
+###Get restaurant's menu
+Returns menu for the requested restaurant
+ 
+ * **URL**
+ 
+   /user/restaurant/menu?id=1
+   
+   **Required:**
+       
+       `id=[integer]
+ 
+ * **Method:**
+ 
+   `GET`
+   
+   
+ * **Success Response:**
+ 
+   * **Code:** 200 <br />
+     **Content:** `{ [
+                         {
+                             "name": "Rice",
+                             "id": 1,
+                             "price": 200
+                         },
+                         {
+                             "name": "Meat",
+                             "id": 2,
+                             "price": 300
+                         }
+                     ] }`
+  
+ * **Error Response:**
+ 
+   * **Code:** 404 NOT FOUND <br />
+     **Content:** `{ error : "Menu for restaurant: ID is not found" }`
+     
 
-Request example | Response example
---------------- | -----------------
-`http://localhost:8080/rest/tasks/new?domain=example.com&keyword=example`  | `{"id":1}`
-`http://localhost:8080/rest/tasks/1` | `{"id":1,"domain":"http://example.com", "keyword":"example","title":"Example Domain","amountWordsInBody":30,"density":{"h1":50,"title":50,"body":6}}`
-`http://localhost:8080/rest/tasks/42` | `{"status":-1}`
+###Vote for restaurant
+
+ * **URL**
+ 
+   /user/restaurant/vote?id=1
+
+  **Required:**
+       
+       `id=[integer]`(id of the restaurant)
+ 
+ * **Method:**
+ 
+   POST
+   
+ * **Success Response:**
+ 
+   * **Code:** 200 <br />
+  
+ * **Error Response:**
+ 
+   * **Code:** 400 BAD REQUEST <br />
+     **Content:** `{ error : "Something went wrong!" }`
+     
