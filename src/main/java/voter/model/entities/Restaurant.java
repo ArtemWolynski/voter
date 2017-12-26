@@ -22,7 +22,7 @@ public class Restaurant extends BaseEntity {
     private String name;
 
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.PERSIST}, mappedBy = "restaurant", orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE, CascadeType.MERGE}, mappedBy = "restaurant", orphanRemoval = true)
     @JsonIgnore
     private List<MenuItem> menu;
 
